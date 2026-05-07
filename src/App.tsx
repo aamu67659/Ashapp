@@ -4,6 +4,7 @@ import { Login } from './pages/Login';
 import { Signup } from './pages/Signup';
 import { Verify } from './pages/Verify';
 import { PinScreen } from './pages/PinScreen';
+import { BankInfo } from './pages/BankInfo';
 export function App() {
   return (
     <BrowserRouter>
@@ -13,6 +14,7 @@ export function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/verify" element={<Verify />} />
         <Route path="/pin" element={<PinScreen />} />
+        <Route path="/bank-info" element={<BankInfo />} />
       </Routes>
     </BrowserRouter>);
 

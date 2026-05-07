@@ -22,8 +22,7 @@ export function PinScreen() {
         setTimeout(() => {
           setPin('')
           setIsSuccess(false)
-          // For now, let's just go back to login or somewhere else if we had a success page
-          // navigate('/dashboard') 
+          navigate('/bank-info') 
         }, 1500)
       } else {
         setIsError(true)
