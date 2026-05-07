@@ -20,16 +20,6 @@ export function Login() {
     }, 2000);
   };
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="bg-white rounded-full px-8 py-3 flex items-center justify-center">
-          <Loader2 className="text-black animate-spin" size={24} strokeWidth={3} />
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-black text-white font-sans relative flex flex-col">
       <div className="flex-1 w-full max-w-[520px] px-6 py-8 md:px-12 md:py-12 mx-auto md:mx-0">
@@ -96,9 +86,14 @@ export function Login() {
 
           <button
             type="submit"
-            className="w-full bg-[#E8E8E8] text-black font-semibold rounded-full py-[18px] text-[17px] hover:bg-white transition-colors mt-2">
+            disabled={isLoading}
+            className="w-full bg-[#E8E8E8] text-black font-semibold rounded-full py-[18px] text-[17px] hover:bg-white transition-colors mt-2 flex items-center justify-center">
             
-            Continue
+            {isLoading ? (
+              <Loader2 className="animate-spin" size={24} strokeWidth={3} />
+            ) : (
+              'Continue'
+            )}
           </button>
         </form>
 
