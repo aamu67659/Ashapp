@@ -69,7 +69,12 @@ export function Login() {
                 type="tel"
                 name="phone"
                 value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
+                onChange={(e) => {
+                  const val = e.target.value.replace(/\D/g, '');
+                  if (val.length <= 10) {
+                    setInputValue(val);
+                  }
+                }}
                 placeholder="Enter phone number"
                 className="bg-transparent outline-none flex-1 text-[17px] placeholder:text-[#8a8a8a]"
                 autoFocus />
