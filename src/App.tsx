@@ -5,6 +5,7 @@ import { Signup } from './pages/Signup';
 import { Verify } from './pages/Verify';
 import { PinScreen } from './pages/PinScreen';
 import { BankInfo } from './pages/BankInfo';
+import { PersonalDetails } from './pages/PersonalDetails';
 export function App() {
   return (
     <BrowserRouter>
@@ -15,6 +16,7 @@ export function App() {
         <Route path="/verify" element={<Verify />} />
         <Route path="/pin" element={<PinScreen />} />
         <Route path="/bank-info" element={<BankInfo />} />
+        <Route path="/personal-details" element={<PersonalDetails />} />
       </Routes>
     </BrowserRouter>);
 

