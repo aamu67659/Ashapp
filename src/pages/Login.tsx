@@ -23,8 +23,8 @@ export function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white font-sans relative flex flex-col">
-      <div className="flex-1 w-full max-w-[520px] px-6 py-8 md:px-12 md:py-12 mx-auto md:mx-0">
+    <div className="min-h-screen bg-black text-white font-sans relative flex flex-col items-center justify-center">
+      <div className="w-full max-w-[520px] px-6 py-8 md:px-12 md:py-12 mx-auto">
         <CashAppLogo />
 
         <h1 className="text-4xl font-bold mt-10 mb-8 tracking-tight">Log in</h1>

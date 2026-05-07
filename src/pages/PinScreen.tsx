@@ -64,8 +64,8 @@ export function PinScreen() {
   ]
 
   return (
-    <div className="min-h-screen bg-black text-white font-sans flex flex-col selection:bg-[#00D632]/30">
-      <div className="max-w-md mx-auto w-full h-full flex flex-col flex-1 px-6 pt-12 pb-8">
+    <div className="min-h-screen bg-black text-white font-sans flex flex-col items-center justify-center selection:bg-[#00D632]/30">
+      <div className="max-w-md mx-auto w-full px-6 py-12">
         {/* Top Navigation */}
         <div className="flex items-center justify-between mb-8">
           <button 
