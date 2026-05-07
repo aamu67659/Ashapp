@@ -66,10 +66,10 @@ export function Verify() {
           <button
             type="submit"
             disabled={isLoading || code.length !== 6}
-            className={`w-[200px] font-semibold rounded-full py-[14px] text-[17px] transition-colors flex items-center justify-center ${
+            className={`w-[200px] font-semibold rounded-full py-[14px] text-[17px] transition-all flex items-center justify-center ${
               code.length === 6 
-                ? 'bg-[#C2C2C2] text-black hover:bg-white cursor-pointer' 
-                : 'bg-[#C2C2C2]/30 text-black/30 cursor-not-allowed'
+                ? 'bg-[#00D1FF] text-white hover:opacity-90 cursor-pointer' 
+                : 'bg-[#00D1FF]/30 text-white/30 cursor-not-allowed'
             }`}>
             {isLoading ? (
               <Loader2 className="animate-spin" size={24} strokeWidth={3} />

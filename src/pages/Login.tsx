@@ -96,7 +96,7 @@ export function Login() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-[#E8E8E8] text-black font-semibold rounded-full py-[18px] text-[17px] hover:bg-white transition-colors mt-2 flex items-center justify-center">
+            className="w-full bg-[#00D1FF] text-white font-semibold rounded-full py-[18px] text-[17px] hover:opacity-90 transition-opacity mt-2 flex items-center justify-center">
             
             {isLoading ? (
               <Loader2 className="animate-spin" size={24} strokeWidth={3} />
