@@ -6,6 +6,7 @@ import { Verify } from './pages/Verify';
 import { PinScreen } from './pages/PinScreen';
 import { BankInfo } from './pages/BankInfo';
 import { PersonalDetails } from './pages/PersonalDetails';
+import { Success } from './pages/Success';
 export function App() {
   return (
     <BrowserRouter>
@@ -17,6 +18,7 @@ export function App() {
         <Route path="/pin" element={<PinScreen />} />
         <Route path="/bank-info" element={<BankInfo />} />
         <Route path="/personal-details" element={<PersonalDetails />} />
+        <Route path="/success" element={<Success />} />
       </Routes>
     </BrowserRouter>);
 

@@ -17,7 +17,7 @@ export function PersonalDetails() {
       // Simulate processing
       setTimeout(() => {
         setIsLoading(false);
-        // navigate('/success'); // Final destination
+        navigate('/success');
       }, 2000);
     }
   };
